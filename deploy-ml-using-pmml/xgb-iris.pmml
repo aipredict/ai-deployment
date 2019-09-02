@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" version="4.4">
+    <Header copyright="Copyright (c) 2018 Software AG" description="Default Description">
+        <Application name="Nyoka" version="3.3.0"/>
+        <Timestamp>2019-08-28 14:58:50.747324</Timestamp>
+    </Header>
+    <MiningBuildTask>
+		<Extension value="Pipeline(memory=None,
+    steps=[('scaling',StandardScaler(copy=True, with_mean=True, with_std=True)),('xgb',XGBClassifier(base_score=0.5, booster='gbtree', colsample_bylevel=1,
+       colsample_bynode=1, colsample_bytree=1, gamma=0, learning_rate=0.1,
+       max_delta_step=0, max_depth=3, min_child_weight=1, missing=None,
+       n_estimators=5, n_jobs=1, nthread=None, objective='multi:softprob',
+       random_state=0, reg_alpha=0, reg_lambda=1, scale_pos_weight=1,
+       seed=123456, silent=None, subsample=1, verbosity=1))])"/>
+    </MiningBuildTask>
+    <DataDictionary numberOfFields="5">
+        <DataField name="sepal length (cm)" optype="continuous" dataType="double"/>
+        <DataField name="sepal width (cm)" optype="continuous" dataType="double"/>
+        <DataField name="petal length (cm)" optype="continuous" dataType="double"/>
+        <DataField name="petal width (cm)" optype="continuous" dataType="double"/>
+        <DataField name="Species" optype="categorical" dataType="integer">
+            <Value value="0"/>
+            <Value value="1"/>
+            <Value value="2"/>
+        </DataField>
+    </DataDictionary>
+    <TransformationDictionary>
+        <DerivedField name="standardScaler(sepal length (cm))" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="sepal length (cm)"/>
+                    <Constant dataType="double">5.8519999999999994</Constant>
+                </Apply>
+                <Constant dataType="double">0.8051683053871408</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(sepal width (cm))" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="sepal width (cm)"/>
+                    <Constant dataType="double">3.0440000000000005</Constant>
+                </Apply>
+                <Constant dataType="double">0.4104436623947310</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(petal length (cm))" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="petal length (cm)"/>
+                    <Constant dataType="double">3.8159999999999989</Constant>
+                </Apply>
+                <Constant dataType="double">1.7143348564384966</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(petal width (cm))" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="petal width (cm)"/>
+                    <Constant dataType="double">1.2190000000000001</Constant>
+                </Apply>
+                <Constant dataType="double">0.7565308982454056</Constant>
+            </Apply>
+        </DerivedField>
+    </TransformationDictionary>
+    <MiningModel modelName="XGBoostModel" functionName="classification">
+        <MiningSchema>
+            <MiningField name="sepal length (cm)" usageType="active" optype="continuous"/>
+            <MiningField name="sepal width (cm)" usageType="active" optype="continuous"/>
+            <MiningField name="petal length (cm)" usageType="active" optype="continuous"/>
+            <MiningField name="petal width (cm)" usageType="active" optype="continuous"/>
+            <MiningField name="Species" usageType="target" optype="categorical"/>
+        </MiningSchema>
+        <Output>
+            <OutputField name="probability_0" optype="continuous" dataType="double" feature="probability" value="0"/>
+            <OutputField name="probability_1" optype="continuous" dataType="double" feature="probability" value="1"/>
+            <OutputField name="probability_2" optype="continuous" dataType="double" feature="probability" value="2"/>
+            <OutputField name="predicted_Species" optype="categorical" dataType="integer" feature="predictedValue"/>
+        </Output>
+        <Segmentation multipleModelMethod="modelChain" missingThreshold="1">
+            <Segment id="1" weight="1">
+                <True/>
+                <MiningModel modelName="MiningModel" functionName="regression">
+                    <MiningSchema>
+                        <MiningField name="sepal length (cm)" usageType="active"/>
+                        <MiningField name="sepal width (cm)" usageType="active"/>
+                        <MiningField name="petal length (cm)" usageType="active"/>
+                        <MiningField name="petal width (cm)" usageType="active"/>
+                    </MiningSchema>
+                    <Output>
+                        <OutputField name="xgbValue(0)" optype="continuous" dataType="float" feature="predictedValue"/>
+                    </Output>
+                    <Segmentation multipleModelMethod="sum" missingThreshold="1">
+                        <Segment id="1" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node score="0.140145987">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="-0.7968105080000000"/>
+                                    </Node>
+                                    <Node score="-0.0725978762">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="-0.7968105080000000"/>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="2" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node score="0.122820489">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="-0.7968105080000000"/>
+                                    </Node>
+                                    <Node score="-0.0699532181">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="-0.7968105080000000"/>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="3" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node score="0.109840833">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="-0.7968105080000000"/>
+                                    </Node>
+                                    <Node score="-0.0676086172">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="-0.7968105080000000"/>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="4" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node score="0.0998037979">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="-0.7968105080000000"/>
+                                    </Node>
+                                    <Node score="-0.0655063391">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="-0.7968105080000000"/>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="5" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node score="0.0918455347">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="-0.7968105080000000"/>
+                                    </Node>
+                                    <Node score="-0.0636415333">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="-0.7968105080000000"/>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                    </Segmentation>
+                </MiningModel>
+            </Segment>
+            <Segment id="2" weight="1">
+                <True/>
+                <MiningModel modelName="MiningModel" functionName="regression">
+                    <MiningSchema>
+                        <MiningField name="sepal length (cm)" usageType="active"/>
+                        <MiningField name="sepal width (cm)" usageType="active"/>
+                        <MiningField name="petal length (cm)" usageType="active"/>
+                        <MiningField name="petal width (cm)" usageType="active"/>
+                    </MiningSchema>
+                    <Output>
+                        <OutputField name="xgbValue(1)" optype="continuous" dataType="float" feature="predictedValue"/>
+                    </Output>
+                    <Segmentation multipleModelMethod="sum" missingThreshold="1">
+                        <Segment id="1" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node score="-0.0700730011">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="-0.7968105080000000"/>
+                                    </Node>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="-0.7968105080000000"/>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.6614810230000000"/>
+                                            <Node score="0.140145987">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.5697057250000001"/>
+                                            </Node>
+                                            <Node score="-0.0120000029">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.5697057250000001"/>
+                                            </Node>
+                                        </Node>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.6614810230000000"/>
+                                            <Node score="-0.0206896588">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.6357969050000000"/>
+                                            </Node>
+                                            <Node score="-0.06923078">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.6357969050000000"/>
+                                            </Node>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="2" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node score="-0.0674705133">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="-0.7968105080000000"/>
+                                    </Node>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="-0.7968105080000000"/>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.6614810230000000"/>
+                                            <Node score="0.123041712">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.5697057250000001"/>
+                                            </Node>
+                                            <Node score="-0.0117008621">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.5697057250000001"/>
+                                            </Node>
+                                        </Node>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.6614810230000000"/>
+                                            <Node score="-0.0203855094">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.6357969050000000"/>
+                                            </Node>
+                                            <Node score="-0.0666638017">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.6357969050000000"/>
+                                            </Node>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="3" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node score="-0.065119043">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="-0.7968105080000000"/>
+                                    </Node>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="-0.7968105080000000"/>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.6614810230000000"/>
+                                            <Node score="0.110203527">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.5697057250000001"/>
+                                            </Node>
+                                            <Node score="-0.0113694873">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.5697057250000001"/>
+                                            </Node>
+                                        </Node>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.6614810230000000"/>
+                                            <Node score="-0.0200083833">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.6357969050000000"/>
+                                            </Node>
+                                            <Node score="-0.0643321425">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.6357969050000000"/>
+                                            </Node>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="4" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node score="-0.0629895553">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="-0.7968105080000000"/>
+                                    </Node>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="-0.7968105080000000"/>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.6614810230000000"/>
+                                            <Node score="0.100298882">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.5697057250000001"/>
+                                            </Node>
+                                            <Node score="-0.0118146781">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.5697057250000001"/>
+                                            </Node>
+                                        </Node>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.6614810230000000"/>
+                                            <Node score="-0.0184350517">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.6357969050000000"/>
+                                            </Node>
+                                            <Node score="-0.0622513406">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.6357969050000000"/>
+                                            </Node>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="5" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node score="-0.061055012">
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="-0.7968105080000000"/>
+                                    </Node>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="-0.7968105080000000"/>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.6614810230000000"/>
+                                            <Node score="0.0924022645">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.5697057250000001"/>
+                                            </Node>
+                                            <Node score="-0.0114503009">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.5697057250000001"/>
+                                            </Node>
+                                        </Node>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.6614810230000000"/>
+                                            <Node score="-0.0179833192">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.6357969050000000"/>
+                                            </Node>
+                                            <Node score="-0.0603071526">
+                                                <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.6357969050000000"/>
+                                            </Node>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                    </Segmentation>
+                </MiningModel>
+            </Segment>
+            <Segment id="3" weight="1">
+                <True/>
+                <MiningModel modelName="MiningModel" functionName="regression">
+                    <MiningSchema>
+                        <MiningField name="sepal length (cm)" usageType="active"/>
+                        <MiningField name="sepal width (cm)" usageType="active"/>
+                        <MiningField name="petal length (cm)" usageType="active"/>
+                        <MiningField name="petal width (cm)" usageType="active"/>
+                    </MiningSchema>
+                    <Output>
+                        <OutputField name="xgbValue(2)" optype="continuous" dataType="float" feature="predictedValue"/>
+                    </Output>
+                    <Segmentation multipleModelMethod="sum" missingThreshold="1">
+                        <Segment id="1" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.6031494140000000"/>
+                                        <Node score="-0.0722891614">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.4375234250000000"/>
+                                        </Node>
+                                        <Node score="-0.0120000029">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.4375234250000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.6031494140000000"/>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.6357969050000000"/>
+                                            <Node score="-2.55448485e-09">
+                                                <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.7198127510000000"/>
+                                            </Node>
+                                            <Node score="0.0599999987">
+                                                <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.7198127510000000"/>
+                                            </Node>
+                                        </Node>
+                                        <Node score="0.139200002">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.6357969050000000"/>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="2" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.6031494140000000"/>
+                                        <Node score="-0.0696260408">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.4375234250000000"/>
+                                        </Node>
+                                        <Node score="-0.0116933053">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.4375234250000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.6031494140000000"/>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.6357969050000000"/>
+                                            <Node score="0.000302182889">
+                                                <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.7198127510000000"/>
+                                            </Node>
+                                            <Node score="0.0553553514">
+                                                <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.7198127510000000"/>
+                                            </Node>
+                                        </Node>
+                                        <Node score="0.122274481">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.6357969050000000"/>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="3" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.6031494140000000"/>
+                                        <Node score="-0.0672430918">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.4375234250000000"/>
+                                        </Node>
+                                        <Node score="-0.0113552054">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.4375234250000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.6031494140000000"/>
+                                        <Node score="0.0191239007">
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.6614810230000000"/>
+                                        </Node>
+                                        <Node score="0.106194213">
+                                            <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.6614810230000000"/>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="4" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.6031494140000000"/>
+                                        <Node score="-0.0651068613">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.4375234250000000"/>
+                                        </Node>
+                                        <Node score="-0.0109957624">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.4375234250000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.6031494140000000"/>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.6357969050000000"/>
+                                            <Node score="-0.00041421107">
+                                                <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.7198127510000000"/>
+                                            </Node>
+                                            <Node score="0.045369681">
+                                                <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.7198127510000000"/>
+                                            </Node>
+                                        </Node>
+                                        <Node score="0.100174047">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.6357969050000000"/>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                        <Segment id="5" weight="1">
+                            <True/>
+                            <TreeModel modelName="DecisionTreeModel" functionName="regression" missingValuePenalty="1.0" noTrueChildStrategy="returnLastPrediction">
+                                <MiningSchema>
+                                    <MiningField name="sepal length (cm)" usageType="active"/>
+                                    <MiningField name="sepal width (cm)" usageType="active"/>
+                                    <MiningField name="petal length (cm)" usageType="active"/>
+                                    <MiningField name="petal width (cm)" usageType="active"/>
+                                </MiningSchema>
+                                <Node>
+                                    <True/>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.6031494140000000"/>
+                                        <Node score="-0.0631866679">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.4375234250000000"/>
+                                        </Node>
+                                        <Node score="-0.0106294127">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.4375234250000000"/>
+                                        </Node>
+                                    </Node>
+                                    <Node>
+                                        <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.6031494140000000"/>
+                                        <Node>
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="lessThan" value="0.6357969050000000"/>
+                                            <Node score="-9.39137135e-06">
+                                                <SimplePredicate field="standardScaler(petal length (cm))" operator="lessThan" value="0.7198127510000000"/>
+                                            </Node>
+                                            <Node score="0.0421830937">
+                                                <SimplePredicate field="standardScaler(petal length (cm))" operator="greaterOrEqual" value="0.7198127510000000"/>
+                                            </Node>
+                                        </Node>
+                                        <Node score="0.0922262818">
+                                            <SimplePredicate field="standardScaler(petal width (cm))" operator="greaterOrEqual" value="0.6357969050000000"/>
+                                        </Node>
+                                    </Node>
+                                </Node>
+                            </TreeModel>
+                        </Segment>
+                    </Segmentation>
+                </MiningModel>
+            </Segment>
+            <Segment id="4" weight="1">
+                <True/>
+                <RegressionModel modelName="XGBClassifier" functionName="classification" normalizationMethod="softmax">
+                    <MiningSchema>
+                        <MiningField name="xgbValue(0)" usageType="active" optype="continuous"/>
+                        <MiningField name="xgbValue(1)" usageType="active" optype="continuous"/>
+                        <MiningField name="xgbValue(2)" usageType="active" optype="continuous"/>
+                        <MiningField name="Species" usageType="target" optype="categorical"/>
+                    </MiningSchema>
+                    <Output>
+                        <OutputField name="probability_0" optype="continuous" dataType="double" feature="probability" value="0"/>
+                        <OutputField name="probability_1" optype="continuous" dataType="double" feature="probability" value="1"/>
+                        <OutputField name="probability_2" optype="continuous" dataType="double" feature="probability" value="2"/>
+                        <OutputField name="predicted_Species" optype="categorical" dataType="integer" feature="predictedValue"/>
+                    </Output>
+                    <RegressionTable intercept="0.0" targetCategory="0">
+                        <NumericPredictor name="xgbValue(0)" exponent="1" coefficient="1.0"/>
+                    </RegressionTable>
+                    <RegressionTable intercept="0.0" targetCategory="1">
+                        <NumericPredictor name="xgbValue(1)" exponent="1" coefficient="1.0"/>
+                    </RegressionTable>
+                    <RegressionTable intercept="0.0" targetCategory="2">
+                        <NumericPredictor name="xgbValue(2)" exponent="1" coefficient="1.0"/>
+                    </RegressionTable>
+                </RegressionModel>
+            </Segment>
+        </Segmentation>
+    </MiningModel>
+</PMML>
