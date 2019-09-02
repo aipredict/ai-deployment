@@ -20,7 +20,7 @@ DaaS设计框架：
 ![DaaS-Design](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-design.jpg)
 
 ## PMML简介
-PMML是一套与平台和环境无关的AI模型序列化标准，为模型的跨平台部署提供了基础，简化了部署流程，可以实现模型的快速上线。关于PMML的详细信息，可以参考文章[《使用PMML部署机器学习模型》](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-using-pmml/README.md)。
+PMML是一套与平台和环境无关的AI模型序列化标准，为模型的跨平台部署提供了基础，简化了部署流程，可实现模型的快速上线。关于PMML的详细信息，可以参考文章[《使用PMML部署机器学习模型》](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-using-pmml/README.md)。
 
 ## 模型部署准备
 
@@ -34,7 +34,7 @@ DaaS系统提供多种模型部署方式，下面，我们演示在DaaS系统中
 2. 创建项目。DaaS使用项目来管理用户的不同分析任务。项目中可以包含模型、部署、脚本、数据、数据源等多种分析资产。
 ![DaaS-New-Project](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-new-project.jpg)
 
-3. 导入模型。项目创建成功后，进入项目主页（仪表盘），切换到`模型`标签页，点击命令`导入模型`。选择要部署的PMML模型文件。在该流程中，首先会对模型进行验证，如果模型不是一个有效的PMML，会导致添加失败，DaaS将返回错误信息。
+3. 导入模型。项目创建成功后，进入项目主页（仪表盘），切换到`模型`标签页，点击命令`导入模型`。选择要部署的PMML模型文件，点击[此处](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-using-pmml/xgb-iris.pmml)可下载当前使用的PMML模型`xgb-iris.pmml`。在该流程中，首先会对模型进行验证，如果模型不是一个有效的PMML，会导致添加失败，DaaS将返回错误信息。
 ![DaaS-Import-Model](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-import-model.jpg)
 
 4. 模型概述。PMML导入成功后，进入模型主页（`概述`），显示了模型的基本信息，比如输入和目标变量、模型类型、使用算法、运行引擎等。
@@ -48,7 +48,7 @@ DaaS系统提供多种模型部署方式，下面，我们演示在DaaS系统中
 1. 添加Web服务。当模型测试成功后，切换到`部署`标签页，点击命令`添加服务`。这里有几个重要的部署选项：
     * 模型版本：当前模型只有一个版本，选择版本1。
     * 网络服务运行环境：指定模型部署运行的docker环境，DaaS默认包含两个网络部署环境分别针对Python 2.7和Python 3.7，每个环境都已经安装了以上常用模型库。我们可以在项目的`运行时定义`中查看系统中包含的运行时定义，允许用户添加自定义运行环境。这里选择`Python 3.7 - Function as a Service`。
-    * 预留CPU和预留内存：为了降低系统的不稳定风险，用户可以选择为部署使用的指定CPU核数和内存量。
+    * 预留CPU和预留内存：为了降低系统的不稳定风险，用户可以选择为部署分配指定的CPU核数和内存量。
     * 副本：提供Web服务的负载均衡。默认为1。
 
     ![DaaS-Add-Service](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-add-service.jpg)
@@ -57,7 +57,7 @@ DaaS系统提供多种模型部署方式，下面，我们演示在DaaS系统中
 
     ![DaaS-Web-Service-Test](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-web-service-test.jpg)
 
-    DaaS为部署服务提供标准的REST API，可以通过任何的REST客户端来调用，方便生产环境的集成。点击`生成代码`命令，会显示如何通过curl命令来调用REST API：
+    DaaS为部署服务提供标准的REST API，可以通过任意REST客户端来调用，方便生产环境的集成。点击`生成代码`命令，会显示如何通过curl命令来调用REST API：
 
     ![DaaS-Web-Service-Generate-Code](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-web-service-generrate-code.jpg)
 
@@ -65,7 +65,7 @@ DaaS系统提供多种模型部署方式，下面，我们演示在DaaS系统中
 
     ![DaaS-Run-Web-Service-Generate-Code](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-run-generrate-code-web-service.jpg)
 
-    返回DaaS，切换到部署`模型`标签页。`指标`页面显示Web服务性能指标：执行次数、平均响应时间、最大最小时间等。我们执行了二次调用，第一次通过DaaS部署测试界面，第二次通过在Shell中执行curl命令。一般来说，第一次调用是要慢一些，后面就会快很多。
+    返回DaaS，切换到部署`模型`标签页。`指标`页面显示Web服务性能指标：执行次数、平均响应时间、最大最小时间等。可以看到，我们执行了二次调用：第一次通过DaaS部署测试界面，第二次通过在Shell中执行curl命令。一般来说，第一次调用是要慢一些，后面就会快很多。
 
     ![DaaS-Web-Service-Overview](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-web-service-overview.jpg)
 
@@ -81,10 +81,10 @@ DaaS系统提供多种模型部署方式，下面，我们演示在DaaS系统中
 
 除了部署Web服务，DaaS还支持部署任务（Job），在任务部署中我们可以完成一些模型相关的操作，比如批量预测，模型评估等。下面我们首先看一下如何部署模型批量预测任务。
 
-1. 导入数据。首先，返回工程页面，切换到`数据集`标签页，点击`添加数据集`命令。DaaS支持添加本地文件和远程数据，远程数据支持多种数据源（HDFS以及常用关系数据数库）。当前我们添加一个本地CSV文件。
+1. 导入数据。首先，返回工程页面，切换到`数据集`标签页，点击`添加数据集`命令。DaaS支持添加本地文件和远程数据，远程数据支持多种数据源（HDFS以及常用关系数据数库等）。当前我们添加一个本地CSV文件。
 ![DaaS-Add-Dataset](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-add-dataset.jpg)
 
-2. 生成批预测脚本。打开模型页面，切换到`批量预测`标签，选择添加的CSV文件`iris.csv`作为输入数据集，输入输出的数据集为本地文件`iris-batch-scoring.csv`。点击`生成批预测脚本`命令。
+2. 生成批预测脚本。打开模型页面，切换到`批量预测`标签，选择添加CSV文件`iris.csv`作为输入数据集，输入输出的数据集仍为本地文件`iris-batch-scoring.csv`。点击`生成批预测脚本`命令。
 ![DaaS-Generate-Batch-Scoring](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-generate-batch-scoring.jpg)
 
 3. 设置任务属性。脚本成功后，点击`高级设置`命令，弹出设置对话框，有几个重要的参数：
@@ -109,7 +109,7 @@ DaaS系统提供多种模型部署方式，下面，我们演示在DaaS系统中
     ![DaaS-run-generate-code-job](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-run-generate-code-job.jpg)
     
 ## 部署模型评估任务服务：
-1. 导入数据。忽略，仍然使用批量预测添加的本地CSV文件。
+1. 导入数据。忽略，仍然使用批量预测添加的本地CSV文件`iris.csv`。
 
 2. 生成模型评估脚本。打开模型页面，切换到`模型评估`标签页，选择该CSV文件为输入数据集，选择评估指标`Accuracy Score`，评估阀值使用默认的[0.3, 0.7]。点击`生成模型评估脚本`命令。
 ![DaaS-generate-model-evaluation](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-generate-model-evaluation.jpg)
