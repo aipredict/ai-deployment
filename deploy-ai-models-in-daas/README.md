@@ -304,7 +304,7 @@ XGBoost提供了两套Python API，一套是原生Python API，另一套是基�
 
 ![DaaS-model-overview-v4](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-ai-models-in-daas/daas-model-overview-v4.jpg)
 
-可以点击`v4`，可以自由切换到其他版本。比如，切换到`v1`。
+点击`v4`，可以自由切换到其他版本。比如，切换到`v1`。
 
 ![DaaS-model-versions](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-ai-models-in-daas/daas-model-versions.jpg)
 
