@@ -119,7 +119,7 @@ PMML虽然有很多优点，但也并非毫无缺点，比如：
 
 
 ## 总结
-本文中我们简单介绍了PMML和它的优缺点，常用的PMML开源类库，以及演示了如何生成和使用PMML。
+本文中我们介绍了PMML这种跨平台机器学习模型表示标准，PMML的优缺点，常用的PMML开源类库，以及演示了如何生成和使用PMML。
 
 虽然PMML有一些缺点和不足，但瑕不掩瑜，PMML的优点是要远远超过存在的缺点。如果您训练的模型可以导出PMML，建议使用PMML来部署，如果导出的PMML不能包含整个Pipelines，我们会在下一讲中讨论如何解决这个问题。
 
@@ -128,4 +128,3 @@ PMML虽然有很多优点，但也并非毫无缺点，比如：
 * PMML4S，PyPMML主页：https://github.com/autodeployai
 * JPMML：https://github.com/jpmml
 * Nyoka：https://github.com/nyoka-pmml/nyoka
-
