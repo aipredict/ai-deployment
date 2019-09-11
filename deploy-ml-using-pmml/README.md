@@ -7,7 +7,7 @@
 * [PMML开源类库](#PMML开源类库)
 * [PMML演示](#PMML演示)
 * [PMML缺点](#PMML缺点)
-* [小结](#小结)
+* [总结](#总结)
 * [参考](#参考)
 
 ## PMML简介
@@ -47,18 +47,19 @@ PMML预测过程符合数据挖掘分析流程：
 模型评估库，读取PMML：
 * Java：
     * JPMML-Evaluator，纯Java的PMML预测库，开源协议是AGPL V3。https://github.com/jpmml/jpmml-evaluator
-    * PMML4S，使用Scala开发，方便在Scala和Java中使用，接口简单好用，开源协议是常用的宽松协议Apache 2。https://github.com/autodeployai/pmml4s
+    * PMML4S，使用Scala开发，同时提供Scala和Java API，接口简单好用，开源协议是常用的宽松协议Apache 2。https://github.com/autodeployai/pmml4s
 * Python:
-    * PyPMML，Python库调用PMML，PyPMML是PMML4S包装的Python接口。https://github.com/autodeployai/pypmml
+    * PyPMML，PMML的Python预测库，PyPMML是PMML4S包装的Python接口。https://github.com/autodeployai/pypmml
 * Spark：
     * JPMML-Evaluator-Spark，https://github.com/jpmml/jpmml-evaluator-spark
     * PMML4S-Spark，https://github.com/autodeployai/pmml4s-spark
 * PySpark:
-    * PyPMML-Spark，https://github.com/autodeployai/pypmml-spark
+    * PyPMML-Spark，PySpark中预测PMML模型。https://github.com/autodeployai/pypmml-spark
 
 ## PMML演示
 构建模型，完整Jupyter Notebook，请参考：https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-using-pmml/xgb-iris-pmml.ipynb
-1. 使用Iris数据构建一个XGBoost模型，在建模之前对浮点数据进行标准化，利用Scikit-learn中的Pipeline：
+
+1. 使用`Iris`数据构建一个XGBoost模型，在建模之前对浮点数据进行标准化，利用Scikit-learn中的Pipeline：
 ```python
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
@@ -117,10 +118,10 @@ PMML虽然有很多优点，但也并非毫无缺点，比如：
 * PMML是一个松散的规范标准，有的厂商生成的PMML有可能不太符合标准定义的Schema，并且PMML规范允许厂商添加自己的扩展，这些都对使用这些模型造成了一定障碍。
 
 
-## 小结
+## 总结
 本文中我们简单介绍了PMML和它的优缺点，常用的PMML开源类库，以及演示了如何生成和使用PMML。
 
-虽然PMML有一些缺点和不足，但瑕不掩瑜，PMML的优点是要远远超过存在的缺点。如果您训练的模型可以导出PMML，建议使用PMML来部署，如果导出的PMML不能包含整个Pipeline，我们会在下一讲中讨论如何解决这个问题。
+虽然PMML有一些缺点和不足，但瑕不掩瑜，PMML的优点是要远远超过存在的缺点。如果您训练的模型可以导出PMML，建议使用PMML来部署，如果导出的PMML不能包含整个Pipelines，我们会在下一讲中讨论如何解决这个问题。
 
 ## 参考
 * DMG官网：http://dmg.org/
