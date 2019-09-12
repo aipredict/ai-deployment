@@ -8,12 +8,13 @@
 * [部署自定义实时预测Web服务](#部署自定义实时预测Web服务)
 * [部署离线批量预测任务服务](#部署离线批量预测任务服务)
 * [部署模型评估任务服务](#部署模型评估任务服务)
+* [总结](#总结)
 * [参考](#参考)
 
 ## DaaS介绍
-DaaS是AutoDeployAI公司推出的AI模型自动部署系统，支持PMML，Scikit-learn，XGBoost，LightGBM，Spark以及主流深度学习Keras，TensorFlow，Pytorch，MxNet等多种模型的部署。
+DaaS（Deployment-as-a-Service）是AutoDeployAI公司推出的AI模型自动部署系统，支持PMML，Scikit-learn，XGBoost，LightGBM，Spark以及主流深度学习Keras，TensorFlow，Pytorch，MxNet等多种模型的部署。
 
-DaaS基于Kubernetes构建服务，提供可靠和可扩展的模型部署服务，弹性部署用户AI和ML解决方案到生产环境中。用户可以自由选择在公有云或私有云的Kubernetes上安装DaaS系统，以满足用户对AI部署的多样需求。本文中的DaaS演示系统部署在本地的Minikube上。
+DaaS基于Kubernetes构建，提供可靠和可扩展的模型部署服务，弹性部署用户AI和ML解决方案到生产环境中。用户可以自由选择在公有云或私有云的Kubernetes上安装DaaS系统，以满足用户对AI部署的多样需求。本文中的DaaS演示系统部署在本地的Minikube上。
 
 DaaS设计框架：
 
@@ -36,9 +37,9 @@ DaaS系统提供多种模型部署方式，下面，我们演示在DaaS系统中
 
     ![DaaS-projects](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-projects.jpg)
 
-    DaaS使用项目来管理用户的不同分析任务。项目中可以包含模型、部署、脚本、数据、数据源等多种分析资产。
+    DaaS使用项目来管理用户的不同分析任务。项目中可以包含模型、部署、程序脚本、数据、数据源等多种分析资产。
 
-    ![DaaS-New-Project](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-new-project.jpg)
+    ![DaaS-new-project](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-new-project.jpg)
 
 3. 导入模型。项目创建成功后，进入项目主页（仪表盘），切换到`模型`标签页，点击命令`导入模型`。
 
@@ -64,7 +65,7 @@ DaaS系统提供多种模型部署方式，下面，我们演示在DaaS系统中
 
     这里有几个重要的部署选项：
     * 模型版本：当前模型只有一个版本，选择版本1。
-    * 网络服务运行环境：指定模型部署运行的docker环境，DaaS默认包含两个网络部署环境分别针对Python 2.7和Python 3.7，每个环境都已经安装了以上常用模型库。我们可以在项目的`运行时定义`中查看系统中包含的运行时定义，允许用户添加自定义运行环境。这里选择`Python 3.7 - Function as a Service`。
+    * 网络服务运行环境：指定模型部署运行的docker环境，DaaS默认包含两个网络部署环境分别针对Python 2.7和Python 3.7，每个环境都已经安装了以上常用模型库。我们可以在项目的`运行时定义`中查看系统中包含的运行时定义，DaaS允许用户添加自定义运行环境。这里选择`Python 3.7 - Function as a Service`。
     * 预留CPU和预留内存：为了降低系统的不稳定风险，用户可以选择为部署分配指定的CPU核数和内存量。
     * 副本：提供Web服务的负载均衡。默认为1。
     ![DaaS-add-service](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-add-service.jpg)
@@ -102,7 +103,7 @@ DaaS系统提供多种模型部署方式，下面，我们演示在DaaS系统中
 
 ## 部署离线批量预测任务服务
 
-除了部署Web服务，DaaS还支持部署任务（Job），在任务部署中我们可以完成一些模型相关的操作，比如批量预测，模型评估等。下面我们首先看一下如何部署模型批量预测任务。
+除了部署网络（Web）服务，DaaS还支持部署任务（Job），在任务部署中我们可以完成一些模型相关的操作，比如批量预测，模型评估等。下面我们首先看一下如何部署模型批量预测任务。
 
 1. 导入数据。首先，返回工程页面，切换到`数据集`标签页，点击`添加数据集`命令。
     ![DaaS-datasets-empty](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-datasets-empty.jpg)
@@ -113,7 +114,7 @@ DaaS系统提供多种模型部署方式，下面，我们演示在DaaS系统中
 
 2. 生成批预测脚本。打开模型页面，切换到`批量预测`标签，选择添加CSV文件`iris.csv`作为输入数据集，输入输出的数据集仍为本地文件`iris-batch-scoring.csv`。点击`生成批预测脚本`命令。
 
-    ![DaaS-Generate-Batch-Scoring](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-generate-batch-scoring.jpg)
+    ![DaaS-generate-batch-scoring](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-generate-batch-scoring.jpg)
 
 3. 设置任务属性。脚本成功后，点击`高级设置`命令，弹出设置对话框，有几个重要的参数：
     * 任务运行环境：执行该脚本任务的docker环境，和Web服务运行环境类似，DaaS默认包含两个任务部署环境分别针对Python 2.7和Python 3.7，每个环境都已经安装了以上常用模型库。我们可以在项目的`运行时定义`中查看系统中包含的运行环境定义，允许用户添加自定义运行环境。这里默认选择`Python 3.7 - Script as a Service`。
@@ -159,7 +160,7 @@ DaaS系统提供多种模型部署方式，下面，我们演示在DaaS系统中
 6. 再次执行该任务。参考以上流程6
 
 ## 总结
-通过以上的演示，我们可以看到DaaS是一个通用模型部署框架，给用户提供了很大的灵活性满足用户各种各样的部署需求。
+通过以上的演示，我们可以看到，DaaS作为一个通用AI模型管理部署平台，具有很大的灵活性和可扩展性，能满足用户的各种自定义部署需求。
 
 ## 参考
-AutoDeployAI官网：https://www.autodeploy.ai/
+AutoDeployAI官网：[https://www.autodeploy.ai/](https://www.autodeploy.ai/)

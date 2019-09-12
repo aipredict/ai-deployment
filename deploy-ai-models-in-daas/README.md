@@ -317,8 +317,8 @@ XGBoost提供了两套Python API，一套是原生Python API，另一套是基�
 ![DaaS-edit-service](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-ai-models-in-daas/daas-edit-service.jpg)
 
 ## 总结
-通过Python DaaS-Client我们可以很容易的部署训练好的模型，并且在DaaS网络客户端管理这些模型和部署，支持自由切换部署中的模型版本。除了支持部署网络（Web）服务，DaaS还支持部署任务（Job）服务，通过任务我们可以运行离线批量预测和模型评估等，具体可以参考文章[《在DaaS中部署PMML模型生成REST API》](https://github.com/aipredict/ai-deployment/blob/master/deploy-pmml-in-daas/README.md)。
+通过Python DaaS-Client我们可以很容易的部署训练好的模型，并且在DaaS网络客户端管理这些模型和部署，可以支持自由切换部署中的模型版本。除了支持部署网络（Web）服务，DaaS还支持部署任务（Job）服务，通过任务我们可以运行离线批量预测和模型评估等，具体可以参考文章[《在DaaS中部署PMML模型生成REST API》](https://github.com/aipredict/ai-deployment/blob/master/deploy-pmml-in-daas/README.md)。
 
 ## 参考
-* DaaS-Client：https://github.com/autodeployai/daas-client
-* AutoDeployAI: https://www.autodeploy.ai/
+* DaaS-Client：[https://github.com/autodeployai/daas-client](https://github.com/autodeployai/daas-client)
+* AutoDeployAI：[https://www.autodeploy.ai/](https://www.autodeploy.ai/)
