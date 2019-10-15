@@ -12,13 +12,13 @@
 * [参考](#参考)
 
 ## DaaS介绍
-DaaS（Deployment-as-a-Service）是AutoDeployAI公司推出的AI模型自动部署系统，支持PMML，Scikit-learn，XGBoost，LightGBM，Spark以及主流深度学习Keras，TensorFlow，Pytorch，MxNet等多种模型的部署。
+DaaS（Deployment-as-a-Service）是AutoDeployAI公司推出的AI模型自动部署系统，支持PMML，Scikit-learn，XGBoost，LightGBM，Spark以及主流深度学习ONNX，Keras，TensorFlow，Pytorch，MxNet等多种模型的部署。
 
 DaaS基于Kubernetes构建，提供可靠和可扩展的模型部署服务，弹性部署用户AI和ML解决方案到生产环境中。用户可以自由选择在公有云或私有云的Kubernetes上安装DaaS系统，以满足用户对AI部署的多样需求。本文中的DaaS演示系统部署在本地的Minikube上。
 
 DaaS设计框架：
 
-![DaaS-Design](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-design.jpg)
+![DaaS-design](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pmml-in-daas/daas-design.jpg)
 
 ## PMML简介
 PMML是一套与平台和环境无关的AI模型序列化标准，为模型的跨平台部署提供了基础，简化了部署流程，可实现模型的快速上线。关于PMML的详细信息，可以参考文章[《使用PMML部署机器学习模型》](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-using-pmml/README.md)。

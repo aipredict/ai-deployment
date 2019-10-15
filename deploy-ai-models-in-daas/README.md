@@ -14,7 +14,7 @@
 ## 背景介绍
 AI的广泛应用是由AI在开源技术的进步推动的，利用功能强大的开源模型库，数据科学家们可以很容易的训练一个性能不错的模型。但是因为模型生产环境和开发环境的不同，涉及到不同角色人员：模型训练是数据科学家和数据分析师的工作，但是模型部署是开发和运维工程师的事情，导致模型上线部署却不是那么容易。
 
-DaaS（Deployment-as-a-Service）是AutoDeployAI公司推出的基于Kuernetes的AI模型自动部署系统，提供一键式自动部署开源AI模型生成REST API，以方便在生产环境中调用。下面，我们主要演示在DaaS中如何部署经典机器学习模型，包括Scikit-learn、XGBoost、LightGBM、和PySpark ML Pipelines。关于深度学习模型的部署，会在下一章中介绍。
+DaaS（Deployment-as-a-Service）是AutoDeployAI公司推出的基于Kubernetes的AI模型自动部署系统，提供一键式自动部署开源AI模型生成REST API，以方便在生产环境中调用。下面，我们主要演示在DaaS中如何部署经典机器学习模型，包括Scikit-learn、XGBoost、LightGBM、和PySpark ML Pipelines。关于深度学习模型的部署，会在下一章中介绍。
 
 ## 部署准备
 我们使用DaaS提供的Python客户端（DaaS-Client）来部署模型，对于XGBoost和LightGBM，我们同样使用它们的Python API来作模型训练。在训练和部署模型之前，我们需要完成以下操作。
@@ -25,7 +25,7 @@ DaaS（Deployment-as-a-Service）是AutoDeployAI公司推出的基于Kuernetes�
     pip install --upgrade git+https://github.com/autodeployai/daas-client.git
     ```
 
-2. 初始化DaasClient。使用DaaS系统的URL、账户、密码登陆系统，文本使用的DaaS演示系统安装在本地的Minikube上。完整Jupyter Notebook，请参考：https://github.com/aipredict/ai-deployment/blob/master/deploy-ai-models-in-daas/deploy-sklearn-xgboost-lightgbm-pyspark.ipynb
+2. 初始化DaasClient。使用DaaS系统的URL、账户、密码登陆系统，文本使用的DaaS演示系统安装在本地的Minikube上。完整Jupyter Notebook，请参考：[deploy-sklearn-xgboost-lightgbm-pyspark.ipynb](https://github.com/aipredict/ai-deployment/blob/master/deploy-ai-models-in-daas/deploy-sklearn-xgboost-lightgbm-pyspark.ipynb)
 
     ```python
     from daas_client import DaasClient
