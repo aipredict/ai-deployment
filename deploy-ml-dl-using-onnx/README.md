@@ -259,11 +259,11 @@ probability_name: output_probability
 ## ONNX与PMML
 ONNX和PMML都是与平台和环境无关的模型表示标准，可以让模型部署脱离模型训练环境，简化了部署流程，加速模型快速上线到生产环境中。这两个标准都得到了各大厂商和框架的支持，得到了广泛的应用。
 
-* PMML是一个比较成熟的标准，在ONNX诞生之前，可以说是模型表示的实际标准，对传统数据挖掘模型有丰富的支持，最新[PMML4.4](http://dmg.org/pmml/v4-4/GeneralStructure.html)可以支持多达19种模型类型。但是，目前PMML缺乏对深度学习模型的支持，下一版本5.0有可能会添加对深度神经网络的支持，但是因为PMML是基于老式的XML格式，使用文本格式来存储深度神经网络模型结构和参数会带来模型大小和性能的问题，目前该问题还没有一个完美的解决方案。关于PMML的详细介绍，可以参考文章[《使用PMML部署机器学习模型》](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-using-pmml/README.md)。
+* PMML是一个比较成熟的标准，在ONNX诞生之前，可以说是模型表示的实际标准，对传统数据挖掘模型有丰富的支持，最新 [PMML4.4](http://dmg.org/pmml/v4-4/GeneralStructure.html) 可以支持多达19种模型类型。但是，目前PMML缺乏对深度学习模型的支持，下一版本5.0有可能会添加对深度神经网络的支持，但是因为PMML是基于老式的XML格式，使用文本格式来存储深度神经网络模型结构和参数会带来模型大小和性能的问题，目前该问题还没有一个完美的解决方案。关于PMML的详细介绍，可以参考文章[《使用PMML部署机器学习模型》](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-using-pmml/README.md)。
 
 * ONNX作为一个新的标准，刚开始主要提供对深度神经网络模型的支持，解决模型在不同框架下互操作和交换的问题。目前通过`ONNX-ML`，ONNX已经可以支持传统非神经网络机器学习模型，但是目前模型类型还不够丰富。ONNX使用protobuf二进制格式来序列化模型，可以提供更好的传输性能。
 
-ONNX和PMML这两种格式都有成熟的开源类库和框架支持，PMML有JPMML，PMML4S，PyPMML等。ONNX有微软的ONNX runtime，NVIDIA TensorRT等。用户可以根据自己的实际情况选择合适的跨平台格式来部署AI模型。
+ONNX和PMML这两种格式都有成熟的开源类库和框架支持，PMML有JPMML，PMML4S，PyPMML等。ONNX有微软的ONNX runtime，NVIDIA TensorRT等。用户可以根据自己的实际情况选择合适的跨平台格式来部署AI模型。
 
 ## DaaS简介
 
