@@ -57,7 +57,7 @@ PMML预测过程符合数据挖掘分析流程：
     * PyPMML-Spark，PySpark中预测PMML模型。https://github.com/autodeployai/pypmml-spark
 
 ## PMML演示
-构建模型，完整Jupyter Notebook，请参考：https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-using-pmml/xgb-iris-pmml.ipynb
+构建模型，完整Jupyter Notebook，请参考：[xgb-iris-pmml.ipynb](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-using-pmml/xgb-iris-pmml.ipynb)
 
 1. 使用`Iris`数据构建一个XGBoost模型，在建模之前对浮点数据进行标准化，利用Scikit-learn中的Pipeline：
 ```python
@@ -121,7 +121,7 @@ PMML虽然有很多优点，但也并非毫无缺点，比如：
 ## 总结
 本文中我们介绍了PMML这种跨平台机器学习模型表示标准，PMML的优缺点，常用的PMML开源类库，以及演示了如何生成和使用PMML。
 
-虽然PMML有一些缺点和不足，但瑕不掩瑜，PMML的优点是要远远超过存在的缺点。如果您训练的模型可以导出PMML，建议使用PMML来部署，如果导出的PMML不能包含整个Pipelines，我们会在下一讲中讨论如何解决这个问题。
+虽然PMML有一些缺点和不足，但瑕不掩瑜，PMML的优点是要远远超过存在的缺点。如果您训练的模型可以导出PMML，建议使用PMML来部署，如果导出的PMML不能包含整个Pipelines，可以参考文章[《自动部署PMML模型生成REST API》](https://github.com/aipredict/ai-deployment/blob/master/deploy-pmml-in-daas/README.md)中介绍的部署自定义实时预测Web服务。
 
 ## 参考
 * DMG官网：http://dmg.org/

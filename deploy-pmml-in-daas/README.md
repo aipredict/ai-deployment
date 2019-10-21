@@ -1,4 +1,4 @@
-# 在DaaS中部署PMML模型生成REST API
+# 自动部署PMML模型生成REST API
 
 ## 目录
 * [DaaS介绍](#DaaS介绍)

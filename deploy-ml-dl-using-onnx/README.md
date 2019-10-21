@@ -13,11 +13,11 @@
 ## ONNX简介
 开放神经网络交换ONNX（Open Neural Network Exchange）是一套表示深度神经网络模型的开放格式，由微软和Facebook于2017推出，然后迅速得到了各大厂商和框架的支持。通过短短几年的发展，已经成为表示深度学习模型的实际标准，并且通过`ONNX-ML`，可以支持传统非神经网络机器学习模型，大有一统整个AI模型交换标准。
 
-ONNX定义了一组与环境和平台无关的标准格式，为AI模型的互操作行提供了基础，使AI模型可以在不同框架和环境下交互使用。硬件和软件厂商可以基于ONNX标准优化模型性能，让所有兼容ONNX标准的框架受益。目前，ONNX主要关注在模型预测方面（inferring），使用不同框架训练的模型，转化为ONNX格式后，可以很容易的部署在兼容ONNX的运行环境中。
+ONNX定义了一组与环境和平台无关的标准格式，为AI模型的互操作性提供了基础，使AI模型可以在不同框架和环境下交互使用。硬件和软件厂商可以基于ONNX标准优化模型性能，让所有兼容ONNX标准的框架受益。目前，ONNX主要关注在模型预测方面（inferring），使用不同框架训练的模型，转化为ONNX格式后，可以很容易的部署在兼容ONNX的运行环境中。
 
 ## ONNX标准介绍
 ONNX规范由以下几个部分组成：
-* 一个可扩展的计算图模型：提供了通用的计算图中间表示法（Intermediate Representation）。
+* 一个可扩展的计算图模型：定义了通用的计算图中间表示法（Intermediate Representation）。
 * 内置操作符集：`ai.onnx`和`ai.onnx.ml`，`ai.onnx`是默认的操作符集，主要针对神经网络模型，`ai.onnx.ml`主要适用于传统非神经网络机器学习模型。
 * 标准数据类型。包括张量（tensors）、序列（sequences）和映射（maps）。
 
@@ -215,13 +215,13 @@ opset_import {
 }
 ```
 
-我们可以看到顶层字段记录了一些模型的元数据信息，代表的含义都比较直观，字段详细解释可以参考文档[IR.md](https://github.com/onnx/onnx/blob/master/docs/IR.md)。`opset_import`记录了该模型引入的操作符集。空的`domain`操作符集表示引入ONNX默认的操作符集`ai.onnx`。`ai.onnx.ml`代表支持传统非神经网络模型操作符集，比如以上模型中的`LinearClassifier`、`Normalizer`和`ZipMap`。图（graph）中定义了以下元素：
+我们可以看到顶层字段记录了一些模型的元数据信息，代表的含义都比较直观，字段详细解释可以参考文档 [Open Neural Network Exchange - ONNX](https://github.com/onnx/onnx/blob/master/docs/IR.md)。`opset_import`记录了该模型引入的操作符集。空的`domain`操作符集表示引入ONNX默认的操作符集`ai.onnx`。`ai.onnx.ml`代表支持传统非神经网络模型操作符集，比如以上模型中的`LinearClassifier`、`Normalizer`和`ZipMap`。图（graph）中定义了以下元素：
 
 * 四个计算节点（node）。
 * 一个输入变量`float_input`，类型为1*4的张量，`elem_type`是一个DataType枚举型变量，1代表FLOAT。
 * 两个输出变量`output_label`和`output_probability`，`output_label`类型为维数为1的INT64（elem_type: 7）张量，代表预测目标分类； `output_probability`类型是映射的序列，映射的键是INT64（key_type: 7），值为维数为1的FLOAT，代表每一个目标分类的概率。
 
-可以使用[netron](https://lutzroeder.github.io/netron/)，图像化显示ONNX模型的计算拓扑图，以上模型如下图：
+可以使用[Netron](https://lutzroeder.github.io/netron/)，图像化显示ONNX模型的计算拓扑图，以上模型如下图：
 
    ![ONNX-graph](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-ml-dl-using-onnx/logreg_iris.onnx.png)
 
@@ -257,7 +257,7 @@ probability_name: output_probability
 完整的程序，可以参考以下notebook：[onnx.ipynb](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-dl-using-onnx/onnx.ipynb)
 
 ## ONNX与PMML
-ONNX和PMML都是与平台和环境无关的模型表示标准，可以让模型部署脱离模型训练环境，简化了部署流程，加速模型快速上线到生产环境中。这两个标准都得到了各大厂商和框架的支持，得到了广泛的应用。
+ONNX和PMML都是与平台和环境无关的模型表示标准，可以让模型部署脱离模型训练环境，简化了部署流程，加速模型快速上线到生产环境中。这两个标准都得到了各大厂商和框架的支持，具有广泛的应用。
 
 * PMML是一个比较成熟的标准，在ONNX诞生之前，可以说是模型表示的实际标准，对传统数据挖掘模型有丰富的支持，最新 [PMML4.4](http://dmg.org/pmml/v4-4/GeneralStructure.html) 可以支持多达19种模型类型。但是，目前PMML缺乏对深度学习模型的支持，下一版本5.0有可能会添加对深度神经网络的支持，但是因为PMML是基于老式的XML格式，使用文本格式来存储深度神经网络模型结构和参数会带来模型大小和性能的问题，目前该问题还没有一个完美的解决方案。关于PMML的详细介绍，可以参考文章[《使用PMML部署机器学习模型》](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-using-pmml/README.md)。
 
@@ -267,7 +267,7 @@ ONNX和PMML这两种格式都有成熟的开源类库和框架支持，PMML有JP
 
 ## DaaS简介
 
-DaaS（Deployment-as-a-Service）是AutoDeployAI公司出品的AI模型自动部署系统，支持多种模型类型的上线部署，以下我们介绍如何在DaaS中使用ONNX格式来部署传统机器学习模型和深度神经网络学习模型，DaaS使用ONNX Runtime作为ONNX模型的执行引擎，ONNX Runtime是微软开源的ONNX预测类库，提供高性能预测服务功能。首先，登陆DaaS系统后，创建一个新的工程`ONNX`，下面的操作都在该工程下进行。关于DaaS的详细信息，可以参考文章[《在DaaS中部署PMML模型生成REST API》](https://github.com/aipredict/ai-deployment/blob/master/deploy-pmml-in-daas/README.md)。
+DaaS（Deployment-as-a-Service）是AutoDeployAI公司推出的AI模型自动部署系统，支持多种模型类型的上线部署，以下我们介绍如何在DaaS中使用ONNX格式来部署传统机器学习模型和深度神经网络学习模型，DaaS使用ONNX Runtime作为ONNX模型的执行引擎，ONNX Runtime是微软开源的ONNX预测类库，提供高性能预测服务功能。首先，登陆DaaS系统后，创建一个新的工程`ONNX`，下面的操作都在该工程下进行。关于DaaS的详细信息，可以参考文章[《自动部署PMML模型生成REST API》](https://github.com/aipredict/ai-deployment/blob/master/deploy-pmml-in-daas/README.md)。
 
 ## 使用ONNX部署传统机器学习模型
 
