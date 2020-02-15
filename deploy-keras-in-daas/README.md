@@ -370,7 +370,7 @@ def postprocess(result):
 
     我们看到，该ONNX模型和原生Keras模型测试结果是一致的。
 
-    * 自定义部署ONNX模型：参考以上Keras模型，流程相同，就不再这里赘述。关于ONNX格式详情以及部署，可以参考文章《[使用ONNX部署深度学习和传统机器学习模型]》(https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-dl-using-onnx/README.md)
+    * 自定义部署ONNX模型：参考以上Keras模型，流程相同，就不再这里赘述。关于ONNX格式详情以及部署，可以参考文章《[使用ONNX部署深度学习和传统机器学习模型](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-dl-using-onnx/README.md)》
 
 
 ## 总结
