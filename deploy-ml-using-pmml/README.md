@@ -32,7 +32,9 @@ PMML预测过程符合数据挖掘分析流程：
 * 可读性。PMML模型是一个基于XML的文本文件，使用任意的文本编辑器就可以打开并查看文件内容，比二进制序列化文件更安全可靠。
 
 ## PMML开源类库
-模型转换库，生成PMML:
+
+### 模型转换库，生成PMML:
+
 * Python模型：
     * Nyoka，支持Scikit-Learn，LightGBM，XGBoost，Statsmodels和Keras。https://github.com/nyoka-pmml/nyoka
     * JPMML系列，比如JPMML-SkLearn、JPMML-XGBoost、JPMML-LightGBM等，提供命令行程序导出模型到PMML。https://github.com/jpmml
@@ -44,7 +46,8 @@ PMML预测过程符合数据挖掘分析流程：
     * Spark mllib，但是只是模型本身，不支持Pipelines，不推荐使用。
     * JPMML-SparkML，支持Spark ML pipleines。https://github.com/jpmml/jpmml-sparkml
 
-模型评估库，读取PMML：
+### 模型评估库，读取PMML：
+
 * Java：
     * JPMML-Evaluator，纯Java的PMML预测库，开源协议是AGPL V3。https://github.com/jpmml/jpmml-evaluator
     * PMML4S，使用Scala开发，同时提供Scala和Java API，接口简单好用，开源协议是常用的宽松协议Apache 2。https://github.com/autodeployai/pmml4s
@@ -55,6 +58,9 @@ PMML预测过程符合数据挖掘分析流程：
     * PMML4S-Spark，https://github.com/autodeployai/pmml4s-spark
 * PySpark:
     * PyPMML-Spark，PySpark中预测PMML模型。https://github.com/autodeployai/pypmml-spark
+* REST API:
+    * AI-Serving，同时为PMML模型提供REST和gRPC API，开源协议Apache 2。https://github.com/autodeployai/ai-serving
+    * Openscoring，提供REST API，开源协议AGPL V3。https://github.com/openscoring/openscoring
 
 ## PMML演示
 构建模型，完整Jupyter Notebook，请参考：[xgb-iris-pmml.ipynb](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-using-pmml/xgb-iris-pmml.ipynb)
@@ -97,7 +103,7 @@ xgboost_to_pmml(pipeline, features, target, "xgb-iris.pmml")
 3. 使用PyPMML来验证PMML预测值是否和原生Python模型一致:
 ```python
 from pypmml import Model
-model = Model.fromFile("xgb-iris.pmml")
+model = Model.load("xgb-iris.pmml")
 model.predict(X_test)
 ```
 
@@ -125,6 +131,6 @@ PMML虽然有很多优点，但也并非毫无缺点，比如：
 
 ## 参考
 * DMG官网：http://dmg.org/
-* PMML4S，PyPMML主页：https://github.com/autodeployai
+* PMML4S，PyPMML和AI-Serving：https://github.com/autodeployai
 * JPMML：https://github.com/jpmml
 * Nyoka：https://github.com/nyoka-pmml/nyoka
