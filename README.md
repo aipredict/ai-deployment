@@ -5,5 +5,6 @@
 * [自动部署PMML模型生成REST API](https://github.com/aipredict/ai-deployment/blob/master/deploy-pmml-in-daas/README.md)
 * [自动部署开源AI模型到生产环境：Scikit-learn、XGBoost、LightGBM、和PySpark](https://github.com/aipredict/ai-deployment/blob/master/deploy-ai-models-in-daas/README.md)
 * [使用ONNX部署深度学习和传统机器学习模型](https://github.com/aipredict/ai-deployment/blob/master/deploy-ml-dl-using-onnx/README.md)
-* [自动部署深度神经网络模型Keras到生产环境中](https://github.com/aipredict/ai-deployment/blob/master/deploy-keras-in-daas/README.md)
+* [自动部署深度神经网络模型TensorFlow（Keras）到生产环境中](https://github.com/aipredict/ai-deployment/blob/master/deploy-keras-in-daas/README.md)
 * [使用开源AI-Serving部署推理PMML和ONNX模型](https://github.com/aipredict/ai-deployment/blob/master/deploy-ai-models-with-ai-serving/README.md)
+* [如何上线部署Pytorch深度学习模型到生产环境中](https://github.com/aipredict/ai-deployment/blob/master/deploy-pytorch-in-daas/README.md)
