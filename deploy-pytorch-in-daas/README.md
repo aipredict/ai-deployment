@@ -17,10 +17,10 @@
 * 初始化DaasClient
 * 创建项目
 
-完整的代码，请参考Github上的Notebook：[deploy-pytorch.ipynb](https://raw.githubusercontent.com/aipredict/ai-deployment/master/deploy-pytorch-in-daas/deploy-pytorch.ipynb)
+完整的代码，请参考Github上的Notebook：[deploy-pytorch.ipynb](https://github.com/aipredict/ai-deployment/blob/master/deploy-pytorch-in-daas/deploy-pytorch.ipynb)
 
 ## Pytorch自定义运行时
-DaaS是基于Kubernetes的AI模型自动部署系统，模型运行在Docker Container中，在DaaS中被称为运行时（Runtime），有两类不同的运行时，分别为网络服务运行环境（Environment）和任务运行环境（Worker）。Environment用于创建网络服务（Web Service），而Worker用于执行任务（Job）的部署，比如模型评估和批量预测等。DaaS默认自带了四套运行时，分别针对Environment和Workder基于不同语言Python2.7和Python3.7，自带了大部分常用的机器学习和深度学习类库，但是因为Docker镜像（Image）大小的缘故，暂时没有包含Pytorch库。
+DaaS是基于Kubernetes的AI模型自动部署系统，模型运行在Docker Container中，在DaaS中被称为运行时（Runtime），有两类不同的运行时，分别为网络服务运行环境（Environment）和任务运行环境（Worker）。Environment用于创建网络服务（Web Service），而Worker用于执行任务（Job）的部署，比如模型评估和批量预测等。DaaS默认自带了四套运行时，分别针对Environment和Worker基于不同语言Python2.7和Python3.7，自带了大部分常用的机器学习和深度学习类库，但是因为Docker镜像（Image）大小的缘故，暂时没有包含Pytorch库。
 
 DaaS提供了自定义运行时功能，允许用户把自定义Docker镜像注册为Runtime，满足用户使用不同模型类型，模型版本的定制需求。下面，我们以部署Pytorch模型为例，详细介绍如何创建自定义运行时:
 
@@ -71,7 +71,7 @@ microk8s ctr image import pytorch.tar
 
 ### 训练Pytorch模型。
 
-使用torchvision中的`MNIST`数据来识别用户输入的数字，以下代码参考官方实例[Image classification (MNIST) using Convnets](https://github.com/pytorch/examples/blob/master/mnist/main.py)：
+使用torchvision中的`MNIST`数据来识别用户输入的数字，以下代码参考官方实例：[Image classification (MNIST) using Convnets](https://github.com/pytorch/examples/blob/master/mnist/main.py)。
 
 首先，定义一个无参函数返回用户定义模型类（继承自torch.nn.Module）的一个实例，函数中包含所有的依赖，可以独立运行，也就是说包含引入的第三方库，定义的类、函数或者变量等等。这是能自动部署Pytorch模型的关键。
 
@@ -265,7 +265,8 @@ pprint(response.json())
 ```
 测试结果除了预测值，还包括标准输出和标准错误输出的日志信息，方便用户的查看和调试。
 
-验证预测结果，与本地模型预测结果进行比较：
+### 验证测试结果
+把预测结果与本地模型结果进行比较：
 
 ```
 import numpy as np
@@ -322,8 +323,7 @@ pprint(response.json())
                                 -20.16324234008789,
                                 -13.592040061950684]]}]}
 ```
-
-除了通过DaaS-Client客户端程序，模型测试和模型部署，也可以在DaaS Web客户端完成，这里就不再赘述。
+正式部署结果和测试结果是相同的，除了通过DaaS-Client客户端程序，模型测试和模型部署，也可以在DaaS Web客户端完成，这里就不再赘述。
 
 
 ## 自定义部署Pytorch模型
