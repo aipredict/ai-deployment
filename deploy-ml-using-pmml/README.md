@@ -59,7 +59,7 @@ PMML预测过程符合数据挖掘分析流程：
 * PySpark:
     * PyPMML-Spark，PySpark中预测PMML模型。https://github.com/autodeployai/pypmml-spark
 * REST API:
-    * AI-Serving，同时为PMML模型提供REST和gRPC API，开源协议Apache 2。https://github.com/autodeployai/ai-serving
+    * AI-Serving，同时为PMML模型提供REST API和gRPC API，开源协议Apache 2。https://github.com/autodeployai/ai-serving
     * Openscoring，提供REST API，开源协议AGPL V3。https://github.com/openscoring/openscoring
 
 ## PMML演示
