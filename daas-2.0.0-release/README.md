@@ -8,7 +8,7 @@ DaaS 2.0.0 主要新功能介绍：
 
 ![DaaS-deployment](daas-deployment.png)
 
-GPU不能在多个Pods之间共享，一个Pod只能指定一个或者多个GPU，只能是整数个数量，不能使用小数，不同CPU核数。关于在k8s中如何使用GPU，参考官方文档[Schedule GPUs](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/)。
+GPU不能在多个Pods之间共享，一个Pod可以指定一个或者多个GPUs，但只能是整数量，不能使用小数，这块不同于CPU核数。关于在k8s中如何使用GPU，参考官方文档[Schedule GPUs](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/)。
 
 目前支持NVIDIA GPU，关于如何在k8s环境启用GPU，目前最方便的方法是通过安装[NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html)，它能自动安装NVIDIA显卡驱动，GPU设备插件，container运行时，自动标记节点等。在[Microk8s](https://microk8s.io/docs/addon-gpu)中，可以通过简单的命令`microk8s.enable gpu`来安装`GPU Operator`。
 
@@ -78,4 +78,4 @@ bind-external-ip.sh xxx.xxx.xxx.xxx [HTTPS_PORT] [HTTP_PORT]
 
 ## 获取免费的单节点版本DaaS-microk8s
 
-DaaS-microks是安装在k8s单节点发行版microk8s的DaaS免费版本，提供DaaS完全的模型部署功能，可以离线安装。如果您想在本地部署，请发送邮件到 autodeploy.ai#outlook.com（# 替换为 @），并说明一下您的所在公司名称以及模型部署需求。
+DaaS-microks是安装在k8s单节点发行版microk8s的DaaS免费版本，提供DaaS完全的模型部署功能，可以离线安装。如果您想在本地部署，请发送邮件到 autodeploy.ai#outlook.com（# 替换为 @），并说明一下您所在的企业机构以及模型部署需求。
